@@ -24,10 +24,10 @@ public class ItemController {
     ItemRepository itemRepository;
 
     @RequestMapping(method=RequestMethod.GET)
-    public Optional<Item> getItem(@RequestParam(value="id") Long id) {
+    public Optional<Item> getItem(@RequestParam(value="id") long id) {
         Optional<Item> item = itemRepository.findById(id);
         if (!item.isPresent()) {
-            throw new ResourceNotFoundException(String.format("Item %ld not found", id));
+            throw new ResourceNotFoundException(String.format("Item %d not found", id));
         }
 
         return item;
