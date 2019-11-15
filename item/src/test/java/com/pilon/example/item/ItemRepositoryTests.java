@@ -2,7 +2,7 @@ package com.pilon.example.item;
 
 import com.pilon.example.item.domain.Item;
 import com.pilon.example.item.repository.ItemRepository;
-import com.pilon.example.item.rest.ItemController;
+// import com.pilon.example.item.rest.ItemController;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -24,10 +24,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(initializers = { ItemServiceTests.Initializer.class })
-public class ItemServiceTests {
-
-	ItemController itemController;
+@ContextConfiguration(initializers = { ItemRepositoryTests.Initializer.class })
+public class ItemRepositoryTests {
 
     @Autowired
     protected ItemRepository itemRepository;
