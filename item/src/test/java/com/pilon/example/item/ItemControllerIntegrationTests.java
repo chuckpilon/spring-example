@@ -51,7 +51,7 @@ public class ItemControllerIntegrationTests {
             .thenReturn(Optional.of(item));
 
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/item?id=1")
+            MockMvcRequestBuilders.get("/item/1")
         )
         .andExpect(status().isOk())
         .andExpect(content().string(itemJSON));
