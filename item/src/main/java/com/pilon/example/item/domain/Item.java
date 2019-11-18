@@ -1,9 +1,9 @@
 package com.pilon.example.item.domain;
 
-// import javax.persistence.Column;
-// import javax.persistence.GeneratedValue;
-// import javax.persistence.GenerationType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Item {
 
     @Id
-    // TODO: Need to fix auto-generation of ID
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // @Column(columnDefinition = "serial")    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")    
     private long id;
 
     private String description;
@@ -35,9 +34,17 @@ public class Item {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @JsonProperty("description")
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
