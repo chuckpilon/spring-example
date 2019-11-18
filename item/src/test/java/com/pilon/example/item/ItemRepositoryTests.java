@@ -49,8 +49,15 @@ public class ItemRepositoryTests {
 
 	@Before
 	public void insertTestData() {
-		itemRepository.save(new Item(1L, "Amazon Echo (3rd Gen) - Twilight Blue"));
-		itemRepository.save(new Item(2L, "Amazon Echo Studio - Black"));
+		Item item1 = new Item();
+		item1.setId(1);
+		item1.setDescription("Amazon Echo (3rd Gen) - Twilight Blue");
+		itemRepository.save(item1);
+
+		Item item2 = new Item();
+		item2.setId(2);
+		item2.setDescription("Amazon Echo Studio - Black");
+		itemRepository.save(item2);
 	}
 
 	@Test

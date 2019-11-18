@@ -1,10 +1,13 @@
 package com.pilon.example.item.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,21 +23,26 @@ public class Item {
 
     private String description;
 
-    protected Item() {
+    @OneToMany(mappedBy="item")
+    Set<ItemImage> images;
+
+    // TODO: Could use an ItemBuilder
+
+    public Item() {
 
     }
 
-    public Item(long id, String description) {
-        this.id = id;
-        this.description = description;
-    }
+    // public Item(long id, String description) {
+    //     this.id = id;
+    //     this.description = description;
+    // }
 
     @JsonProperty("id")
     public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -45,6 +53,15 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @JsonProperty("images")
+    public Set<ItemImage> getImages() {
+        return this.images;
+    }
+
+    public void setImages(Set<ItemImage> images) {
+        this.images = images;
     }
 
     @Override
