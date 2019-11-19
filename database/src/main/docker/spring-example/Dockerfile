@@ -15,7 +15,7 @@
 
 
 
-FROM postgres:9.6
+FROM postgres:12.1
 
 # RUN mkdir /docker-entrypoint-initdb.d
 ADD 00_create_schema.sql /docker-entrypoint-initdb.d

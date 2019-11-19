@@ -32,7 +32,7 @@ public class ItemRepositoryTests {
 	// Set up a database before running the tests
 	@ClassRule
 	@SuppressWarnings("rawtypes")
-	public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:9.6")
+	public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:12.1")
 		.withDatabaseName("postgres")
 		.withUsername("postgres")
 		.withPassword("postgress");
