@@ -26,16 +26,9 @@ public class Item {
     @OneToMany(mappedBy="item")
     Set<ItemImage> images;
 
-    // TODO: Could use an ItemBuilder
-
     public Item() {
 
     }
-
-    // public Item(long id, String description) {
-    //     this.id = id;
-    //     this.description = description;
-    // }
 
     @JsonProperty("id")
     public long getId() {

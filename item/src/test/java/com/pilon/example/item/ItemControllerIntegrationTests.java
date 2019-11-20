@@ -23,7 +23,9 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pilon.example.item.domain.Item;
+import com.pilon.example.item.domain.ItemBuilder;
 import com.pilon.example.item.domain.ItemImage;
+import com.pilon.example.item.domain.ItemImageBuilder;
 import com.pilon.example.item.repository.ItemRepository;
 import com.pilon.example.item.rest.ItemController;
 
@@ -48,17 +50,21 @@ public class ItemControllerIntegrationTests {
         String imageDescription = "Amazon Echo (3rd Gen) - Twilight Blue";
         String imageUrl = "https://images-na.ssl-images-amazon.com/images/I/61gTLgYwFCL._AC_SL1000_.jpg";
 
-        ItemImage itemImage = new ItemImage();
-        itemImage.setId(1);
-        itemImage.setItemId(1);
-        itemImage.setUrl(imageUrl);
+        ItemImage itemImage = ItemImageBuilder
+            .newInstance()
+            .id(1)
+            .itemId(1)
+            .url(imageUrl)
+            .build();
         Set<ItemImage> itemImages = new HashSet<>();
         itemImages.add(itemImage);
 
-        Item item = new Item();
-        item.setId(1L);
-        item.setDescription(imageDescription);
-        item.setImages(itemImages);
+        Item item = ItemBuilder
+            .newInstance()
+            .id(1)
+            .description(imageDescription)
+            .images(itemImages)
+            .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
         String itemJSON = objectMapper.writeValueAsString(item);
@@ -88,9 +94,12 @@ public class ItemControllerIntegrationTests {
 
     @Test
     public void createItemTest() throws Exception {
-        Item item = new Item();
-        item.setId(3);
-        item.setDescription("Echo Show 8");
+        Item item = ItemBuilder
+            .newInstance()
+            .id(3)
+            .description("Echo Show 8")
+            // .images(itemImages)
+            .build();
         
         ObjectMapper objectMapper = new ObjectMapper();
         String itemJSON = objectMapper.writeValueAsString(item);

@@ -1,6 +1,7 @@
 package com.pilon.example.item;
 
 import com.pilon.example.item.domain.Item;
+import com.pilon.example.item.domain.ItemBuilder;
 import com.pilon.example.item.repository.ItemRepository;
 
 import org.junit.Before;
@@ -49,14 +50,18 @@ public class ItemRepositoryTests {
 
 	@Before
 	public void insertTestData() {
-		Item item1 = new Item();
-		item1.setId(1);
-		item1.setDescription("Amazon Echo (3rd Gen) - Twilight Blue");
+        Item item1 = ItemBuilder
+            .newInstance()
+            .id(1)
+            .description("Amazon Echo (3rd Gen) - Twilight Blue")
+            .build();
 		itemRepository.save(item1);
 
-		Item item2 = new Item();
-		item2.setId(2);
-		item2.setDescription("Amazon Echo Studio - Black");
+        Item item2 = ItemBuilder
+            .newInstance()
+            .id(2)
+            .description("Amazon Echo Studio - Black")
+            .build();
 		itemRepository.save(item2);
 	}
 
