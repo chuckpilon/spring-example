@@ -17,7 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -90,6 +93,62 @@ public class ItemControllerIntegrationTests {
         .andExpect(jsonPath("$.images[0].itemId").value(1))
         .andExpect(jsonPath("$.images[0].url").exists())
         .andExpect(jsonPath("$.images[0].url").value(imageUrl));
+    }
+
+    @Test
+    public void getItemsTest() throws Exception {
+        List<Item> items = new ArrayList<>();
+
+        String imageDescription1 = "Amazon Echo (3rd Gen) - Twilight Blue";
+        String imageUrl1 = "https://images-na.ssl-images-amazon.com/images/I/61gTLgYwFCL._AC_SL1000_.jpg";
+        String imageDescription2 = "Introducing Echo Studio - High-fidelity smart speaker with 3D audio and Alexa";
+        String imageUrl2 = "https://images-na.ssl-images-amazon.com/images/I/61FPZMMCqzL._AC_SL1000_.jpg";
+
+        items.add(ItemBuilder
+            .newInstance()
+            .id(1)
+            .description(imageDescription1)
+            .images(new HashSet<>(Arrays.asList(
+                ItemImageBuilder
+                    .newInstance()
+                    .id(1)
+                    .itemId(1)
+                    .url(imageUrl1)
+                    .build())))
+            .build());
+
+        items.add(ItemBuilder
+            .newInstance()
+            .id(2)
+            .description(imageDescription2)
+            .images(new HashSet<>(Arrays.asList(
+                ItemImageBuilder
+                    .newInstance()
+                    .id(2)
+                    .itemId(2)
+                    .url(imageUrl2)
+                    .build())))
+            .build());
+
+        Mockito
+            .when(itemRepository.findAll())
+            .thenReturn(items);
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/item")
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()").value(2))
+        .andExpect(jsonPath("$.[0]").exists())
+        .andExpect(jsonPath("$.[0].id").exists())
+        .andExpect(jsonPath("$.[0].description").exists())
+        .andExpect(jsonPath("$.[0].images").exists())
+        .andExpect(jsonPath("$.[0].images.length()").value(1))
+        .andExpect(jsonPath("$.[1].id").exists())
+        .andExpect(jsonPath("$.[1].description").exists())
+        .andExpect(jsonPath("$.[1].images").exists())
+        .andExpect(jsonPath("$.[1].images.length()").value(1))
+        ;
     }
 
     @Test
