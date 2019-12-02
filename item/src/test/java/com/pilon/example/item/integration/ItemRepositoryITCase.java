@@ -1,4 +1,4 @@
-package com.pilon.example.item;
+package com.pilon.example.item.integration;
 
 import com.pilon.example.item.domain.Item;
 import com.pilon.example.item.domain.ItemBuilder;
@@ -24,8 +24,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(initializers = { ItemRepositoryTests.Initializer.class })
-public class ItemRepositoryTests {
+@ContextConfiguration(initializers = { ItemRepositoryITCase.Initializer.class })
+public class ItemRepositoryITCase {
 
     @Autowired
     protected ItemRepository itemRepository;

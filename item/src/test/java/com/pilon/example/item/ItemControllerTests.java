@@ -33,7 +33,7 @@ import com.pilon.example.item.repository.ItemRepository;
 import com.pilon.example.item.rest.ItemController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ItemControllerIntegrationTests {
+public class ItemControllerTests {
 
     @Mock
     ItemRepository itemRepository;
@@ -48,6 +48,11 @@ public class ItemControllerIntegrationTests {
         mockMvc = standaloneSetup(itemController).build();
     }
 
+    /**
+     * Tests ItemController.getItem.
+     * 
+     * @throws Exception
+     */
     @Test
     public void getItemTest() throws Exception {
         String imageDescription = "Amazon Echo (3rd Gen) - Twilight Blue";
