@@ -2,6 +2,14 @@ version: '3.7'
 
 services:
 
+  activemq:
+    image: rmohr/activemq:5.15.9
+    container_name: activemq
+    restart: always
+    ports:
+      - 61616:61616 
+      - 8161:8161
+
   postgres:
     image: spring-example-db:latest
     container_name: spring-example-db
@@ -32,3 +40,5 @@ services:
         --eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
         --spring.jpa.show-sql=true
         --spring.jpa.properties.hibernate.format_sql=true
+        --jms.host=activemq
+        --jms.port=61616

@@ -3,6 +3,7 @@ package com.pilon.example.item.rest;
 import java.util.Optional;
 
 import com.pilon.example.item.domain.Item;
+import com.pilon.example.item.integration.ItemGateway;
 import com.pilon.example.item.repository.ItemRepository;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,9 @@ public class ItemController {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    ItemGateway itemGateway;
 
     @RequestMapping(value = "/{id}", method=RequestMethod.GET)
     public Optional<Item> getItem(@PathVariable("id") long id) {
@@ -46,7 +50,9 @@ public class ItemController {
     @RequestMapping(method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Item createItem(@RequestBody Item item) {
-        return itemRepository.save(item);
+        Item newItem = itemRepository.save(item);
+        itemGateway.publish(newItem);
+        return newItem;
     }
 
 }
