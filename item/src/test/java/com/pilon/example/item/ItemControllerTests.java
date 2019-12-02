@@ -18,17 +18,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pilon.example.item.domain.Item;
 import com.pilon.example.item.domain.ItemBuilder;
-import com.pilon.example.item.domain.ItemImage;
-import com.pilon.example.item.domain.ItemImageBuilder;
 import com.pilon.example.item.repository.ItemRepository;
 import com.pilon.example.item.rest.ItemController;
 
@@ -58,20 +53,11 @@ public class ItemControllerTests {
         String imageDescription = "Amazon Echo (3rd Gen) - Twilight Blue";
         String imageUrl = "https://images-na.ssl-images-amazon.com/images/I/61gTLgYwFCL._AC_SL1000_.jpg";
 
-        ItemImage itemImage = ItemImageBuilder
-            .newInstance()
-            .id(1)
-            .itemId(1)
-            .url(imageUrl)
-            .build();
-        Set<ItemImage> itemImages = new HashSet<>();
-        itemImages.add(itemImage);
-
         Item item = ItemBuilder
             .newInstance()
             .id(1)
             .description(imageDescription)
-            .images(itemImages)
+            .addImage(1, 1, imageUrl)
             .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -113,26 +99,14 @@ public class ItemControllerTests {
             .newInstance()
             .id(1)
             .description(imageDescription1)
-            .images(new HashSet<>(Arrays.asList(
-                ItemImageBuilder
-                    .newInstance()
-                    .id(1)
-                    .itemId(1)
-                    .url(imageUrl1)
-                    .build())))
+            .addImage(1, 1, imageUrl1)
             .build());
 
         items.add(ItemBuilder
             .newInstance()
             .id(2)
             .description(imageDescription2)
-            .images(new HashSet<>(Arrays.asList(
-                ItemImageBuilder
-                    .newInstance()
-                    .id(2)
-                    .itemId(2)
-                    .url(imageUrl2)
-                    .build())))
+            .addImage(2, 2, imageUrl2)
             .build());
 
         Mockito

@@ -29,6 +29,15 @@ public class ItemImage {
     @JoinColumn(name="item_id", updatable=false, insertable=false)
     Item item;
 
+    public ItemImage() {
+    }
+
+    public ItemImage(long id, long itemId, String url) {
+        this.id = id;
+        this.itemId = itemId;
+        this.url = url;
+    }
+
     @JsonProperty("id")
     public long getId() {
         return id;
