@@ -5,7 +5,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,17 +24,19 @@ import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pilon.example.item.domain.Item;
 import com.pilon.example.item.domain.ItemBuilder;
+import com.pilon.example.item.integration.ItemGateway;
 import com.pilon.example.item.repository.ItemRepository;
 import com.pilon.example.item.rest.ItemController;
 
-// TODO: This test needs to be updated to work with the JMS additions.
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ItemControllerTests {
 
     @Mock
     ItemRepository itemRepository;
-    
+
+    @Mock
+    ItemGateway itemGateway;
+
     @InjectMocks
     ItemController itemController;
     
