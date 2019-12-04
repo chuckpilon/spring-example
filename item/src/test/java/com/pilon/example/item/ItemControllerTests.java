@@ -68,7 +68,7 @@ public class ItemControllerTests {
         String itemJSON = objectMapper.writeValueAsString(item);
 
         Mockito
-            .when(itemRepository.findById(1))
+            .when(itemRepository.findById(1L))
             .thenReturn(Optional.of(item));
 
         mockMvc.perform(

@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-5.1.xsd
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-5.1.xsd">
-		
+
 	<bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
 		<property name="targetConnectionFactory">
 			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
@@ -23,9 +23,9 @@
 	</bean>
 	
 	<!-- Items are published to itemChannel channel, converted to JSON, then written to the itemQueue JMS queue. -->
-	<int:gateway service-interface="com.pilon.example.item.integration.ItemGateway" default-request-channel="itemChannel"/>	
-	<int:object-to-json-transformer input-channel="itemChannel" output-channel="itemJSONChannel"/>
-	<int-jms:outbound-channel-adapter connection-factory="connectionFactory" channel="itemJSONChannel" destination="itemQueue"/>
+	<int:gateway id="itemGateway" service-interface="com.pilon.example.item.integration.ItemGateway" default-request-channel="itemChannel"/>	
+	<int:object-to-json-transformer id="itemToJsonTransformer" input-channel="itemChannel" output-channel="itemJSONChannel"/>
+	<int-jms:outbound-channel-adapter id="itemOutboundChannelAdaper" connection-factory="connectionFactory" channel="itemJSONChannel" destination="itemQueue"/>
 	
 	<int:channel id="itemChannel"/>
 	<int:channel id="itemJSONChannel"/>

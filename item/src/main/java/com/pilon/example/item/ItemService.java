@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 @Configuration
-@ImportResource("integration-context.xml")
+@ImportResource("classpath:integration-context.xml")
 public class ItemService {
 
 	public static void main(String[] args) {

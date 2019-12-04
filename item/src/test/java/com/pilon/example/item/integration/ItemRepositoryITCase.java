@@ -1,19 +1,18 @@
 package com.pilon.example.item.integration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+
 import com.pilon.example.item.domain.Item;
 import com.pilon.example.item.domain.ItemBuilder;
 import com.pilon.example.item.repository.ItemRepository;
 
 import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -23,16 +22,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-// TODO: This test needs to be updated to work with the JMS additions.
-@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(initializers = { ItemRepositoryITCase.Initializer.class })
+@ContextConfiguration(initializers = { ItemRepositoryITCase.Initializer.class } )
 public class ItemRepositoryITCase {
 
-    @Autowired
-    protected ItemRepository itemRepository;
-
+	@Autowired
+	private ItemRepository itemRepository;
+	
 	// Set up a database before running the tests
 	@ClassRule
 	@SuppressWarnings("rawtypes")
@@ -81,8 +78,8 @@ public class ItemRepositoryITCase {
 
 	@Test
     public void givenItems_whenFindAll_thenGetOk() {
-        List<Item> items = itemRepository.findAll();
-        assertThat(items.size()).isEqualTo(2);
+        Iterable<Item> items = itemRepository.findAll();
+		assertThat(StreamSupport.stream(items.spliterator(), false).count()).isEqualTo(2);
     }
 
 }
