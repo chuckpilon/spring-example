@@ -27,6 +27,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @ContextConfiguration(initializers = { ItemRepositoryITCase.Initializer.class } )
 public class ItemRepositoryITCase {
 
+	private static final long NEXT_ITEM_ID = 3L;
+
 	@Autowired
 	private ItemRepository itemRepository;
 	
@@ -80,6 +82,23 @@ public class ItemRepositoryITCase {
     public void givenItems_whenFindAll_thenGetOk() {
         Iterable<Item> items = itemRepository.findAll();
 		assertThat(StreamSupport.stream(items.spliterator(), false).count()).isEqualTo(2);
-    }
+	}
+	
+	@Test
+	public void givenItem_whenSave_thenGetOK() {
+        Item item = ItemBuilder
+            .newInstance()
+            .description("Echo Show 8")
+            .build();
+		Item savedItem = itemRepository.save(item);
+		assertThat(savedItem).isNotNull();
+		assertThat(savedItem.getId()).isEqualTo(NEXT_ITEM_ID);
+		assertThat(savedItem.getDescription()).isEqualTo(item.getDescription());
+
+		Optional<Item> queriedItem = itemRepository.findById(NEXT_ITEM_ID);
+		assertThat(queriedItem.isPresent()).isTrue();
+		assertThat(queriedItem.get().getId()).isEqualTo(NEXT_ITEM_ID);
+		assertThat(queriedItem.get().getDescription()).isEqualTo(item.getDescription());
+	}
 
 }
