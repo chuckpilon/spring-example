@@ -25,7 +25,7 @@ public class ItemImageController {
     ItemImageRepository itemImageRepository;
 
     @RequestMapping(value = "/{id}", method=RequestMethod.GET)
-    public Optional<ItemImage> getItemImage(@PathVariable("id") long id) {
+    public Optional<ItemImage> getItemImage(@PathVariable("id") long id) throws ResourceNotFoundException {
         Optional<ItemImage> itemImage = itemImageRepository.findById(id);
         if (!itemImage.isPresent()) {
             throw new ResourceNotFoundException(String.format("Item image %d not found", id));
@@ -35,7 +35,7 @@ public class ItemImageController {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public Iterable<ItemImage> getItemImages() {
+    public Iterable<ItemImage> getItemImages() throws ResourceNotFoundException {
         Iterable<ItemImage> itemImages = itemImageRepository.findAll();
         if (!itemImages.iterator().hasNext()) {
             throw new ResourceNotFoundException("No item images found");

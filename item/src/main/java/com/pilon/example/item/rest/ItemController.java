@@ -29,7 +29,7 @@ public class ItemController {
     ItemGateway itemGateway;
 
     @RequestMapping(value = "/{id}", method=RequestMethod.GET)
-    public Optional<Item> getItem(@PathVariable("id") long id) {
+    public Optional<Item> getItem(@PathVariable("id") long id) throws ResourceNotFoundException {
         Optional<Item> item = itemRepository.findById(id);
         if (!item.isPresent()) {
             throw new ResourceNotFoundException(String.format("Item %d not found", id));
@@ -39,7 +39,7 @@ public class ItemController {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public Iterable<Item> getItems() {
+    public Iterable<Item> getItems() throws ResourceNotFoundException {
         Iterable<Item> items = itemRepository.findAll();
         if (!items.iterator().hasNext()) {
             throw new ResourceNotFoundException("No items found");
