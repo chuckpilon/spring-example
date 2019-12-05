@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.pilon.example.item.domain.Item;
 import com.pilon.example.item.integration.ItemGateway;
 import com.pilon.example.item.repository.ItemRepository;
+import com.pilon.example.item.repository.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

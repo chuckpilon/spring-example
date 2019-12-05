@@ -1,4 +1,4 @@
-package com.pilon.example.item.rest;
+package com.pilon.example.item.repository;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;

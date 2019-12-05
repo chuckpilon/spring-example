@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.pilon.example.item.domain.ItemImage;
 import com.pilon.example.item.repository.ItemImageRepository;
+import com.pilon.example.item.repository.ResourceNotFoundException;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
