@@ -9,17 +9,16 @@ import com.pilon.example.item.repository.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@ResponseBody
-@RequestMapping(value = {"/item"})
+@RestController
+@RequestMapping(value = {"/item"}, produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 public class ItemController {
 
     @Autowired
@@ -28,14 +27,19 @@ public class ItemController {
     @Autowired
     ItemGateway itemGateway;
 
+    // @ExceptionHandler(ResourceNotFoundException.class)
+    // public String handleResourceNotFoundException(ResourceNotFoundException e) {
+    //     return e.getMessage();
+    // }
+
     @RequestMapping(value = "/{id}", method=RequestMethod.GET)
-    public Optional<Item> getItem(@PathVariable("id") long id) throws ResourceNotFoundException {
+    public Item getItem(@PathVariable("id") long id) throws ResourceNotFoundException {
         Optional<Item> item = itemRepository.findById(id);
         if (!item.isPresent()) {
             throw new ResourceNotFoundException(String.format("Item %d not found", id));
         }
 
-        return item;
+        return item.get();
     }
 
     @RequestMapping(method=RequestMethod.GET)

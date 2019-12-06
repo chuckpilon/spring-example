@@ -12,6 +12,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="items")
 public class Item {
@@ -25,10 +30,6 @@ public class Item {
 
     @OneToMany(mappedBy="item")
     Set<ItemImage> images;
-
-    public Item() {
-
-    }
 
     @JsonProperty("id")
     public long getId() {
