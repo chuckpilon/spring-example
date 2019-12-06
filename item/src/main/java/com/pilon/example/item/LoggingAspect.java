@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 class LoggingAspect {
-    Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
     
     @Around("execution( * com.pilon.example..*.*(..) )")
     public Object log (ProceedingJoinPoint pjp) throws Throwable {
