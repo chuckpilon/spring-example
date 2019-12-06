@@ -33,10 +33,17 @@
         <appender-ref ref="Console" />
     </root>
 
-    <!-- Log "com.pilon.example*" at INFO level -->
+    <!-- Log "com.pilon.example" at INFO level -->
     <logger name="com.pilon.example" level="info" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
+
+    <!-- Log "org.springframework.boot.autoconfigure.security" at INFO level -->
+    <logger name="org.springframework.boot.autoconfigure.security" level="info" additivity="false">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </logger>
+
 
 </configuration>

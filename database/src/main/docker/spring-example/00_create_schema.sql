@@ -1,3 +1,16 @@
+CREATE TABLE public.users (
+	username varchar NOT NULL PRIMARY KEY,
+	password varchar NOT NULL,
+	enabled boolean NOT NULL
+);
+
+CREATE TABLE public.authorities (
+	username varchar NOT NULL,
+	authority varchar NOT NULL
+);
+ALTER TABLE public.authorities ADD CONSTRAINT authorities_fk FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE;
+CREATE UNIQUE INDEX authorities_idx ON public.authorities (username, authority);
+
 CREATE TABLE public.items (
 	id SERIAL PRIMARY KEY NOT NULL,
 	description varchar NOT NULL
