@@ -1,7 +1,7 @@
 package com.pilon.example.item.auth;
 
 import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -9,8 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 
-// Commented out so that Spring doesn't pick it up.
-// @Configuration
+@Configuration
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
 public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -27,12 +26,30 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${ldap.passwordAttribute}")
     String passwordAttribute;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic();
+    // @Override
+    // protected void configure(HttpSecurity http) throws Exception {
+    //     http.httpBasic();
 
-        http.authorizeRequests().anyRequest().authenticated();
-    }
+    //     http.authorizeRequests().anyRequest().authenticated();
+    // }
+
+    @Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+		http
+			.csrf().disable();
+
+		http
+			.authorizeRequests().anyRequest().authenticated();
+
+		http
+			.formLogin()
+			.loginPage("/login").permitAll();
+
+		http
+			.logout().logoutUrl("/logout").logoutSuccessUrl("/logout-success").permitAll();
+
+	}
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
