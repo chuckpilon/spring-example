@@ -32,18 +32,33 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
 
+        // NOTE: Wouldn't normally need or want this.
 		http
 			.csrf().disable();
 
+        // Allow onky managers to access /principal, allow unauthentiocated requests to /actuator/health.
+        // amd require authentication for everything else.
 		http
-			.authorizeRequests().anyRequest().authenticated();
+            .authorizeRequests()
+            .mvcMatchers("/principal")
+                .hasAnyAuthority("ROLE_MANAGERS")
+            .mvcMatchers("/actuator/health")
+                .permitAll()
+            .anyRequest()
+                .authenticated();
 
+        // Use a form login
 		http
 			.formLogin()
-			.loginPage("/login").permitAll();
+            .loginPage("/login")
+            .permitAll();
 
+        // Use a form logout
 		http
-			.logout().logoutUrl("/logout").logoutSuccessUrl("/logout-success").permitAll();
+            .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/logout-success")
+            .permitAll();
 
     }
 
