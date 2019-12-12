@@ -3,19 +3,25 @@ package com.pilon.example.item.auth;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
+import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator;
-import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
 
 @Configuration
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
 public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Value("${ldap.userDn}")
+    String userDn;
+
+    @Value("${ldap.password}")
+    String password;
 
     @Value("${ldap.userDnPatterns}")
     String userDnPatterns;
@@ -34,8 +40,8 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // NOTE: Wouldn't normally need or want this.
 		http
-			.csrf().disable();
-
+            .csrf().disable();
+            
         // Allow onky managers to access /principal, allow unauthentiocated requests to /actuator/health.
         // amd require authentication for everything else.
 		http
@@ -62,24 +68,29 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
+    /**
+     * This needs to be a bean so that the context is used for all endpoints.
+     * 
+     * @return
+     */
     @Bean
-    public LdapContextSource contextSource() {
-        LdapContextSource contextSource = new LdapContextSource();
-        contextSource.setUrl(contextURL);
+    public BaseLdapPathContextSource contextSource() {
+        DefaultSpringSecurityContextSource contextSource = new DefaultSpringSecurityContextSource(contextURL);
+        contextSource.setUserDn(userDn);
+        contextSource.setPassword(password);
+        contextSource.afterPropertiesSet();
+
         return contextSource;
-    }    
-    
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        LdapAuthoritiesPopulator populator = new DefaultLdapAuthoritiesPopulator(contextSource(), groupSearchBase);
-
         // @formatter:off
         auth.ldapAuthentication()
-            .userDnPatterns(userDnPatterns)
-            .groupSearchBase(groupSearchBase)
-            .ldapAuthoritiesPopulator(populator)
             .contextSource(contextSource())
+            .userDnPatterns(userDnPatterns)
+            .ldapAuthoritiesPopulator(new DefaultLdapAuthoritiesPopulator(contextSource(), groupSearchBase))
             .passwordCompare()
                 .passwordAttribute(passwordAttribute)
                 .passwordEncoder(new LdapShaPasswordEncoder());

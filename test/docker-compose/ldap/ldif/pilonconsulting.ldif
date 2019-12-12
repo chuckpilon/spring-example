@@ -1,0 +1,171 @@
+version: 1
+
+# LDAP container automatically adds this, and will error out if it exists.
+# dn: dc=pilonconsulting,dc=com
+# objectClass: domain
+# objectClass: top
+# dc: pilonconsulting
+
+dn: ou=groups,dc=pilonconsulting,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=developers,ou=groups,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: developers
+member: uid=ben,ou=people,dc=pilonconsulting,dc=com
+member: uid=bob,ou=people,dc=pilonconsulting,dc=com
+member: uid=cpilon,ou=people,dc=pilonconsulting,dc=com
+ou: developer
+
+dn: cn=managers,ou=groups,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: managers
+member: uid=ben,ou=people,dc=pilonconsulting,dc=com
+member: uid=cpilon,ou=people,dc=pilonconsulting,dc=com
+ou: manager
+
+dn: ou=subgroups,ou=groups,dc=pilonconsulting,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: subgroups
+
+dn: cn=submanagers,ou=subgroups,ou=groups,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: submanagers
+member: uid=ben,ou=people,dc=pilonconsulting,dc=com
+member: uid=cpilon,ou=people,dc=pilonconsulting,dc=com
+ou: submanager
+
+dn: ou=jvm-developer,dc=pilonconsulting,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: java-developer
+
+dn: cn=circular-jvm-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: circular-jvm-developers
+member: cn=groovy-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+member: cn=scala-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+member: uid=javadude,ou=people,dc=pilonconsulting,dc=com
+ou: java-developer
+
+dn: cn=closure-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: closure-developers
+member: uid=closuredude,ou=people,dc=pilonconsulting,dc=com
+ou: java-developer
+
+dn: cn=groovy-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: groovy-developers
+member: cn=closure-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+member: uid=groovydude,ou=people,dc=pilonconsulting,dc=com
+member: cn=circular-jvm-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+ou: java-developer
+
+dn: cn=java-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: java-developers
+member: cn=jvm-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+member: uid=cpilon,ou=people,dc=pilonconsulting,dc=com
+ou: java-developer
+
+dn: cn=jvm-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: jvm-developers
+member: cn=groovy-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+member: cn=scala-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+member: uid=javadude,ou=people,dc=pilonconsulting,dc=com
+ou: java-developer
+
+dn: cn=scala-developers,ou=jvm-developer,dc=pilonconsulting,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: scala-developers
+member: uid=scaladude,ou=people,dc=pilonconsulting,dc=com
+ou: java-developer
+
+dn: ou=people,dc=pilonconsulting,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: uid=ben,ou=people,dc=pilonconsulting,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Ben Alex
+sn: Alex
+uid: ben
+userPassword: {SHA}nFCebWjxfaLbHHG1Qk5UU4trbvQ=
+
+dn: uid=bob,ou=people,dc=pilonconsulting,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Bob Hamilton
+sn: Hamilton
+uid: bob
+userPassword: bobspassword
+
+dn: uid=closuredude,ou=people,dc=pilonconsulting,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Closure Dude
+sn: Dude
+uid: closuredude
+userPassword: closuredudespassword
+
+dn: uid=cpilon,ou=people,dc=pilonconsulting,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Chuck Pilon
+sn: Pilon
+uid: cpilon
+userPassword: password
+
+dn: uid=groovydude,ou=people,dc=pilonconsulting,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Groovy Dude
+sn: Dude
+uid: groovydude
+userPassword: groovydudespassword
+
+dn: uid=javadude,ou=people,dc=pilonconsulting,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Java Dude
+sn: Dude
+uid: javadude
+userPassword: javadudespassword
+
+dn: uid=scaladude,ou=people,dc=pilonconsulting,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Scala Dude
+sn: Dude
+uid: scaladude
+userPassword: scaladudespassword
