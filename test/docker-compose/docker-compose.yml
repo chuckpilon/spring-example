@@ -13,7 +13,6 @@ services:
       LDAP_ORGANISATION: "Pilon Consulting"
       LDAP_DOMAIN: "pilonconsulting.com"
       LDAP_BASE_DN: "dc=pilonconsulting,dc=com"
-      # LDAP_READONLY_USER: "true"
       LDAP_ADMIN_PASSWORD: "JonSn0w"
     entrypoint:
       - /container/tool/run
@@ -34,7 +33,7 @@ services:
 
   postgres:
     image: spring-example-db:latest
-    container_name: spring-example-db
+    container_name: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
@@ -43,24 +42,25 @@ services:
 
   discovery:
     image: spring-example-discovery:latest
-    container_name: spring-example-discovery
+    container_name: discovery
     ports:
       - 8761:8761
     environment:
       OPTS: --eureka.client.registerWithEureka=true --eureka.client.fetchRegistry=true
         --eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
 
-  # item: 
-  #   image: spring-example-item:latest
-  #   container_name: spring-example-item
-  #   ports:
-  #     - 8081:8081
-  #     - 5001:5001
-  #   environment:
-  #     JAVAOPTS: -agentlib:jdwp=transport=dt_socket,server=y,address=5001,suspend=n
-  #     OPTS: --spring.datasource.url=jdbc:postgresql://postgres:5432/postgres 
-  #       --eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
-  #       --spring.jpa.show-sql=true
-  #       --spring.jpa.properties.hibernate.format_sql=true
-  #       --jms.host=activemq
-  #       --jms.port=61616
+  item: 
+    image: spring-example-item:latest
+    container_name: item
+    ports:
+      - 8081:8081
+      - 5001:5001
+    environment:
+      JAVAOPTS: -agentlib:jdwp=transport=dt_socket,server=y,address=5001,suspend=n
+      OPTS: --spring.datasource.url=jdbc:postgresql://postgres:5432/postgres 
+        --eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+        --spring.jpa.show-sql=true
+        --spring.jpa.properties.hibernate.format_sql=true
+        --jms.host=activemq
+        --jms.port=61616
+        --ldap.context.url=ldap://ldap:389/dc=pilonconsulting,dc=com
