@@ -16,6 +16,7 @@ import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopul
 @Configuration
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
+@Order(20)
 public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${ldap.userDn}")
@@ -42,18 +43,10 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // NOTE: Wouldn't normally need or want this.
 		http
             .csrf().disable();
-            
-        // Allow onky managers to access /principal, allow unauthentiocated requests to /actuator/health.
-        // amd require authentication for everything else.
-		http
-            .authorizeRequests()
-            .mvcMatchers("/principal")
-                .hasAnyAuthority("ROLE_MANAGERS")
-            // .mvcMatchers("/actuator/health")
-            //     .permitAll()
-            .anyRequest()
-                .authenticated();
 
+        http
+            .authorizeRequests();
+            
         // Use a form login
 		http
 			.formLogin()

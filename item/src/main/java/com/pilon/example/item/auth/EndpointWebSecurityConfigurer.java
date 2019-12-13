@@ -1,7 +1,5 @@
 package com.pilon.example.item.auth;
 
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,21 +8,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@Order(10)
-public class ActuatorWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+@Order(30)
+public class EndpointWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        // Allow unauthenticated requests to /actuator/health.
+        // Allow only managers to access /principal and require authentication for
+        // everything else.
 
         // @formatter:off
-        http
-            .requestMatcher(EndpointRequest.toAnyEndpoint())
+		http
             .authorizeRequests()
-                .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
-                .anyRequest().authenticated();
+            .mvcMatchers("/principal")
+                .hasAnyAuthority("ROLE_MANAGERS")
+            .anyRequest()
+                .authenticated();
         // @formatter:on
-
     }
 }
