@@ -1,9 +1,10 @@
 package com.pilon.example.item.auth;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,8 +17,7 @@ import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopul
 @Configuration
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
-@Order(20)
-public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${ldap.userDn}")
     String userDn;
@@ -40,26 +40,45 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
 
+        // @formatter:off
+
         // NOTE: Wouldn't normally need or want this.
 		http
-            .csrf().disable();
+            .csrf()
+                .disable();
 
+        // Allow unauthenticated requests to /actuator/health.
         http
-            .authorizeRequests();
-            
+            .authorizeRequests()
+                .requestMatchers(EndpointRequest.to(HealthEndpoint.class))
+                    .permitAll();
+    
         // Use a form login
-		http
+        http
 			.formLogin()
-            .loginPage("/login")
-            .permitAll();
+                .loginPage("/login")
+                .permitAll();
 
         // Use a form logout
 		http
             .logout()
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/logout-success")
-            .permitAll();
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/logout-success")
+                .permitAll();
 
+        // Require manager role for principal
+    	http
+            .authorizeRequests()
+            .mvcMatchers("/principal")
+                .hasAnyAuthority("ROLE_MANAGERS");
+
+        // Lock down all other requests
+        http
+            .authorizeRequests()
+            .anyRequest()
+                .authenticated();
+
+        // @formatter:on
     }
 
     /**
@@ -91,4 +110,23 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // @formatter:on
 
     }
+
+    // @Bean
+    // UserDetailsManager userDetailsService(DataSource dataSource) {
+	// 	JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
+	// 	jdbcUserDetailsManager.setDataSource(dataSource);
+	// 	return jdbcUserDetailsManager;
+	// }
+	
+	// @Bean
+	// @SuppressWarnings("deprecation")
+	// InitializingBean initializer(UserDetailsManager userDetailsManager) {
+	// 	return () -> {
+	// 		UserDetails cpilon = User.withDefaultPasswordEncoder().username("cpilon").password("password").roles("USER").build();
+	// 		userDetailsManager.createUser(cpilon);
+	// 		UserDetails admin = User.withDefaultPasswordEncoder().username("admin").password("admin").roles("USER").build();
+	// 		userDetailsManager.createUser(admin);
+	// 	};
+	// }
+
 }
