@@ -3,6 +3,7 @@ package com.pilon.example.item.auth;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.ldap.core.support.BaseLdapPathContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,7 @@ import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopul
 @Configuration
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
+@Order(10)
 public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${ldap.userDn}")
