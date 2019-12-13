@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@Order(20)
+@Order(1)
 public class ActuatorWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override

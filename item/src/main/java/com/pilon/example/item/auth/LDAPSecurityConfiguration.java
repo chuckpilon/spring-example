@@ -16,7 +16,6 @@ import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopul
 @Configuration
 @SuppressWarnings("deprecation")
 @EnableWebSecurity
-@Order(10)
 public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${ldap.userDn}")
@@ -50,8 +49,8 @@ public class LDAPSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .mvcMatchers("/principal")
                 .hasAnyAuthority("ROLE_MANAGERS")
-            .mvcMatchers("/actuator/health")
-                .permitAll()
+            // .mvcMatchers("/actuator/health")
+            //     .permitAll()
             .anyRequest()
                 .authenticated();
 
