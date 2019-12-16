@@ -19,6 +19,9 @@ import org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopul
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Value("${web.security.authType}")
+    String authType;
+
     @Value("${ldap.userDn}")
     String userDn;
 
@@ -53,19 +56,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .requestMatchers(EndpointRequest.to(HealthEndpoint.class))
                     .permitAll();
     
-        // Use a form login
-        http
-			.formLogin()
-                .loginPage("/login")
-                .permitAll();
-
-        // Use a form logout
-		http
-            .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/logout-success")
-                .permitAll();
-
         // Require manager role for principal
     	http
             .authorizeRequests()
@@ -78,6 +68,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .anyRequest()
                 .authenticated();
 
+        // Would be better to control the auth type by spoecifying a class in the properties file.                
+
+        // Set the authentication type
+        switch (authType) {
+            case "basic":
+                http.httpBasic();
+                break;
+
+            case "form":
+                // Use a form login
+                http
+                    .formLogin()
+                        .loginPage("/login")
+                        .permitAll();
+
+                // Use a form logout
+                http
+                    .logout()
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/logout-success")
+                        .permitAll();
+                break;
+        }
+        
         // @formatter:on
     }
 
