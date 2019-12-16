@@ -13,6 +13,8 @@ CREATE UNIQUE INDEX authorities_idx ON public.authorities (username, authority);
 
 CREATE TABLE public.items (
 	id SERIAL PRIMARY KEY NOT NULL,
+	created_by varchar NOT NULL,
+	created timestamp NOT NUll,
 	description varchar NOT NULL
 );
 CREATE UNIQUE INDEX items_id_idx ON public.items (id);
