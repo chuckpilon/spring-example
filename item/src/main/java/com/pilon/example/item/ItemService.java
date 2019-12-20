@@ -12,6 +12,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+// import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+// import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+// import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 @Configuration
@@ -19,7 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @ImportResource("classpath:integration-context.xml")
 public class ItemService {
 
-	@Bean
+    @Bean
     AuditorAware<String> auditor() {
         return new AuditorAware<String>() {
 
@@ -37,9 +41,8 @@ public class ItemService {
         };
     }
 
-
-	public static void main(String[] args) {
-		SpringApplication.run(ItemService.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ItemService.class, args);
+    }
 
 }

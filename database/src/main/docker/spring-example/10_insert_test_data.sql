@@ -1,8 +1,12 @@
 INSERT INTO public.users (username, password, enabled) VALUES ('cpilon', '{bcrypt}$2a$10$TTsbo77ByAr7gBB.hGOyUexPg3uhNYwi32oKclj18czkFnHzDKXxW', true); -- password
 INSERT INTO public.users (username, password, enabled) VALUES ('admin', '{bcrypt}$2a$10$zF6yiUfmdqM8JQQQZkr6f.qvUeZHGdvOghPHszW.tzPOXKy8RyWQi', true); -- admin
+INSERT INTO public.users (username, password, enabled) VALUES ('lpilon', '{bcrypt}$2a$10$TTsbo77ByAr7gBB.hGOyUexPg3uhNYwi32oKclj18czkFnHzDKXxW', true); -- password
 
-INSERT INTO public.authorities (username, authority) VALUES ('cpilon', 'ROLE_USER');
-INSERT INTO public.authorities (username, authority) VALUES ('admin', 'ROLE_USER');
+INSERT INTO public.authorities (username, authority) VALUES ('cpilon', 'ROLE_USERS');
+INSERT INTO public.authorities (username, authority) VALUES ('cpilon', 'ROLE_MANAGERS');
+INSERT INTO public.authorities (username, authority) VALUES ('admin', 'ROLE_USERS');
+INSERT INTO public.authorities (username, authority) VALUES ('admin', 'ROLE_ADMINS');
+INSERT INTO public.authorities (username, authority) VALUES ('lpilon', 'ROLE_USERS');
 
 INSERT INTO public.items (created, created_by, description) VALUES (NOW(), 'cpilon', 'Amazon Echo (3rd Gen) - Twilight Blue');
 INSERT INTO public.item_images (item_id, url) VALUES (currval(pg_get_serial_sequence('public.items', 'id')), 'https://images-na.ssl-images-amazon.com/images/I/61gTLgYwFCL._AC_SL1000_.jpg');
