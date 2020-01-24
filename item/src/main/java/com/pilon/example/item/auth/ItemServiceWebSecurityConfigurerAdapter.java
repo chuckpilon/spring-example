@@ -42,15 +42,15 @@ public class ItemServiceWebSecurityConfigurerAdapter extends WebSecurityConfigur
         // Would be better to control the auth type by spoecifying a class in the properties file.                
 
         // Set the authentication type
-        switch (authType) {
-            case "none":
+        switch (AuthType.valueOf(authType.toUpperCase())) {
+            case NONE:
                 break;
 
-            case "basic":
+            case BASIC:
                 http.httpBasic();
                 break;
 
-            case "form":
+            case FORM:
                 // Use a form login
                 http
                     .formLogin()
@@ -65,7 +65,7 @@ public class ItemServiceWebSecurityConfigurerAdapter extends WebSecurityConfigur
                         .permitAll();
                 break;
             
-            case "oauth2":
+            case OAUTH2:
                 // Not sure this is needed or desired.
 
                 // Use a form login

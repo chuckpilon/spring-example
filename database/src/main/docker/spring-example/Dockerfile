@@ -18,5 +18,5 @@
 FROM postgres:12.1
 
 # RUN mkdir /docker-entrypoint-initdb.d
-ADD 00_create_schema.sql /docker-entrypoint-initdb.d
-ADD 10_insert_test_data.sql /docker-entrypoint-initdb.d
+COPY 00_create_schema.sql /docker-entrypoint-initdb.d
+COPY 10_insert_test_data.sql /docker-entrypoint-initdb.d

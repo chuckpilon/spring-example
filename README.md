@@ -9,7 +9,7 @@ Update /etc/hosts with the following
 ```
 # Needed for Oauth2 callbacks
 127.0.0.1     pilonapps.com
-127.0.0.1     idp
+127.0.0.1     keycloak
 ```
 
 ## Modules
